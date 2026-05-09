@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>POWER9 – Premium Sports Nutrition</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+/* ===== THEME VARIABLES ===== */
+[data-theme="dark"]{
+  --bg:#0a0a0a; --surface:#111111; --surface2:#1a1a1a; --surface3:#222222; --surface4:#2a2a2a;
+  --text:#ffffff; --text2:#cccccc; --muted:#888888; --muted2:#444444;
+  --glass:rgba(255,255,255,0.04); --glass-border:rgba(255,255,255,0.08);
+  --nav-bg:rgba(10,10,10,0.93); --shadow:0 8px 32px rgba(0,0,0,0.5);
+  --input-bg:#222222; --card-hover:rgba(214,40,40,0.12);
+}
+[data-theme="light"]{
+  --bg:#f0f0f0; --surface:#ffffff; --surface2:#f8f8f8; --surface3:#eeeeee; --surface4:#e5e5e5;
+  --text:#111111; --text2:#333333; --muted:#666666; --muted2:#bbbbbb;
+  --glass:rgba(0,0,0,0.03); --glass-border:rgba(0,0,0,0.1);
+  --nav-bg:rgba(255,255,255,0.96); --shadow:0 8px 32px rgba(0,0,0,0.12);
+  --input-bg:#f0f0f0; --card-hover:rgba(214,40,40,0.06);
+}
+:root{
+  --red:#d62828; --red-dark:#a01c1c; --red-glow:rgba(214,40,40,0.25);
+  --green:#4caf50; --blue:#2196f3; --orange:#ff9800;
+  --radius:12px; --transition:all 0.28s cubic-bezier(0.4,0,0.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;overflow-x:hidden;transition:background .3s,color .3s;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:3px;}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);padding:0 36px;height:68px;display:flex;align-items:center;justify-content:space-between;transition:background .3s;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:4px;color:var(--text);cursor:pointer;}
+.nav-logo span{color:var(--red);}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;transition:var(--transition);}
+.nav-links a:hover{color:var(--text);}
+.nav-links a.admin-link{color:var(--red)!important;border:1px solid rgba(214,40,40,.3);padding:5px 12px;border-radius:7px;}
+.nav-right{display:flex;align-items:center;gap:14px;}
+.lang-switcher{display:flex;gap:5px;}
+.lang-btn{background:none;border:1px solid var(--glass-border);color:var(--muted);padding:4px 9px;border-radius:6px;cursor:pointer;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;font-family:'Barlow',sans-serif;transition:var(--transition);}
+.lang-btn.active{background:var(--red);border-color:var(--red);color:#fff;}
+.lang-btn:hover:not(.active){border-color:var(--text);color:var(--text);}
+.theme-toggle{background:none;border:1px solid var(--glass-border);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:var(--transition);}
+.theme-toggle:hover{border-color:var(--red);color:var(--red);}
+.cart-btn{position:relative;background:none;border:none;color:var(--text);font-size:1.15rem;cursor:pointer;padding:8px;transition:var(--transition);}
+.cart-btn:hover{color:var(--red);}
+.cart-badge{position:absolute;top:-1px;right:-1px;background:var(--red);color:#fff;font-size:.6rem;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;opacity:0;transform:scale(0);transition:var(--transition);}
+.cart-badge.visible{opacity:1;transform:scale(1);}
+.auth-btn{background:var(--red);color:#fff;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;transition:var(--transition);}
+.auth-btn:hover{background:var(--red-dark);transform:translateY(-1px);}
+.user-menu{display:flex;align-items:center;gap:10px;}
+.user-name{color:var(--muted);font-size:.8rem;letter-spacing:1px;font-weight:600;}
+.user-link{background:none;border:1px solid var(--glass-border);color:var(--muted);padding:6px 13px;border-radius:7px;cursor:pointer;font-family:'Barlow',sans-serif;font-size:.74rem;letter-spacing:1px;text-transform:uppercase;transition:var(--transition);}
+.user-link:hover{border-color:var(--red);color:var(--red);}
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.3rem;cursor:pointer;}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:var(--nav-bg);backdrop-filter:blur(20px);padding:16px 32px;flex-direction:column;gap:16px;z-index:999;border-bottom:1px solid var(--glass-border);}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--muted);text-decoration:none;font-size:.95rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:10px 0;border-bottom:1px solid var(--glass-border);}
+
+/* ===== HERO ===== */
+.hero{padding-top:68px;min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--bg) 0%,#1a0808 40%,var(--bg) 100%);}
+[data-theme="light"] .hero-bg{background:linear-gradient(135deg,#f0f0f0 0%,#f8e8e8 40%,#f0f0f0 100%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(214,40,40,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(214,40,40,0.05) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite;}
+@keyframes gridMove{0%{background-position:0 0;}100%{background-position:60px 60px;}}
+.hero-content{position:relative;z-index:1;padding:0 40px;max-width:680px;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(214,40,40,0.12);border:1px solid rgba(214,40,40,0.3);color:var(--red);padding:6px 16px;border-radius:50px;font-size:.72rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:26px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,9vw,7.5rem);line-height:.92;letter-spacing:2px;margin-bottom:22px;color:var(--text);}
+.hero-title span{color:var(--red);display:block;}
+.hero-subtitle{color:var(--muted);font-size:1.05rem;line-height:1.7;margin-bottom:36px;max-width:480px;font-weight:300;}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{background:var(--red);color:#fff;border:none;padding:14px 32px;border-radius:10px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:2px;text-transform:uppercase;transition:var(--transition);text-decoration:none;display:inline-flex;align-items:center;gap:9px;}
+.btn-primary:hover{background:var(--red-dark);transform:translateY(-2px);box-shadow:0 12px 36px var(--red-glow);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--glass-border);padding:14px 32px;border-radius:10px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:2px;text-transform:uppercase;transition:var(--transition);text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.btn-outline:hover{border-color:var(--text);transform:translateY(-2px);}
+.hero-stats{display:flex;gap:40px;margin-top:56px;flex-wrap:wrap;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--red);letter-spacing:2px;}
+.stat-label{color:var(--muted);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;}
+.hero-deco{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:550px;height:550px;border-radius:50%;background:radial-gradient(circle,rgba(214,40,40,0.07) 0%,transparent 70%);pointer-events:none;}
+
+/* ===== SECTIONS ===== */
+section{padding:76px 40px;}
+.section-header{text-align:center;margin-bottom:56px;}
+.section-tag{display:inline-block;color:var(--red);font-size:.72rem;letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:14px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5vw,3.8rem);letter-spacing:2px;color:var(--text);}
+.section-sub{color:var(--muted);margin-top:10px;font-size:.95rem;font-weight:300;}
+
+/* ===== PRODUCTS ===== */
+#products{background:var(--surface);}
+.shop-controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:36px;}
+.filters{display:flex;flex-wrap:wrap;gap:7px;}
+.filter-btn{background:var(--glass);border:1px solid var(--glass-border);color:var(--muted);padding:7px 18px;border-radius:50px;cursor:pointer;font-family:'Barlow',sans-serif;font-size:.78rem;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:var(--transition);}
+.filter-btn.active,.filter-btn:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.search-sort{display:flex;gap:10px;align-items:center;}
+.search-input{background:var(--input-bg);border:1px solid var(--glass-border);color:var(--text);padding:9px 14px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:.88rem;width:210px;outline:none;transition:var(--transition);}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--red);}
+.sort-select{background:var(--input-bg);border:1px solid var(--glass-border);color:var(--muted);padding:9px 14px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:.83rem;outline:none;cursor:pointer;}
+.sort-select option{background:var(--surface3);color:var(--text);}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:22px;}
+.product-card{background:var(--surface2);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;transition:var(--transition);cursor:pointer;}
+.product-card:hover{transform:translateY(-5px);border-color:rgba(214,40,40,.35);box-shadow:0 20px 56px rgba(0,0,0,.3);}
+.product-img{height:210px;display:flex;align-items:center;justify-content:center;background:var(--surface3);position:relative;overflow:hidden;}
+.product-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.product-card:hover .product-img img{transform:scale(1.05);}
+.product-img .icon-placeholder{font-size:3.8rem;color:rgba(214,40,40,.25);}
+.product-badge{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:.62rem;padding:4px 9px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;font-weight:700;}
+.product-body{padding:18px;}
+.product-cat{color:var(--red);font-size:.68rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:7px;}
+.product-name{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:.5px;margin-bottom:10px;line-height:1.3;color:var(--text);}
+.product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;}
+.product-price{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--red);letter-spacing:2px;}
+.product-price small{font-family:'Barlow',sans-serif;font-size:.72rem;color:var(--muted);font-weight:400;letter-spacing:0;}
+.add-cart-btn{background:var(--red);color:#fff;border:none;width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.add-cart-btn:hover{background:var(--red-dark);transform:scale(1.12);}
+
+/* ===== CART SIDEBAR ===== */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1100;opacity:0;pointer-events:none;transition:var(--transition);}
+.cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-sidebar{position:fixed;top:0;right:-430px;width:420px;height:100vh;background:var(--surface2);border-left:1px solid var(--glass-border);z-index:1101;display:flex;flex-direction:column;transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow);}
+.cart-sidebar.open{right:0;}
+.cart-header{padding:22px 24px;border-bottom:1px solid var(--glass-border);display:flex;align-items:center;justify-content:space-between;}
+.cart-title{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:3px;color:var(--text);}
+.close-btn{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;transition:var(--transition);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.close-btn:hover{background:var(--glass);color:var(--text);}
+.cart-items{flex:1;overflow-y:auto;padding:18px;}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--muted);gap:14px;}
+.cart-empty i{font-size:2.8rem;opacity:.3;}
+.cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--glass-border);}
+.cart-item-img{width:60px;height:60px;background:var(--surface3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:rgba(214,40,40,.4);overflow:hidden;flex-shrink:0;}
+.cart-item-img img{width:100%;height:100%;object-fit:cover;}
+.cart-item-info{flex:1;min-width:0;}
+.cart-item-name{font-weight:600;font-size:.88rem;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.cart-item-price{color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:1px;}
+.cart-item-controls{display:flex;align-items:center;gap:7px;margin-top:7px;}
+.qty-btn{background:var(--glass);border:1px solid var(--glass-border);color:var(--text);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.qty-btn:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.qty-num{font-weight:700;min-width:22px;text-align:center;color:var(--text);}
+.remove-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.82rem;margin-left:auto;transition:var(--transition);padding:4px;}
+.remove-btn:hover{color:var(--red);}
+.cart-footer{padding:18px 24px;border-top:1px solid var(--glass-border);}
+.cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.cart-total-label{color:var(--muted);font-size:.82rem;letter-spacing:2px;text-transform:uppercase;}
+.cart-total-amount{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--red);letter-spacing:2px;}
+.checkout-btn{width:100%;background:var(--red);color:#fff;border:none;padding:14px;border-radius:10px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:2px;text-transform:uppercase;transition:var(--transition);}
+.checkout-btn:hover{background:var(--red-dark);}
+
+/* ===== MODALS ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:var(--transition);backdrop-filter:blur(8px);padding:16px;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface2);border:1px solid var(--glass-border);border-radius:16px;padding:36px;width:100%;max-width:500px;position:relative;box-shadow:var(--shadow);transform:scale(.96);transition:var(--transition);max-height:92vh;overflow-y:auto;}
+.modal-overlay.open .modal{transform:scale(1);}
+.modal h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:3px;margin-bottom:24px;color:var(--text);}
+.modal-close{position:absolute;top:18px;right:18px;background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;transition:var(--transition);width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:var(--glass);color:var(--text);}
+
+/* ===== FORMS ===== */
+.form-group{margin-bottom:18px;}
+.form-label{display:block;color:var(--muted);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:7px;}
+.form-input{width:100%;background:var(--input-bg);border:1px solid var(--glass-border);color:var(--text);padding:11px 14px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:.92rem;outline:none;transition:var(--transition);}
+.form-input:focus{border-color:var(--red);}
+.form-input::placeholder{color:var(--muted);}
+.form-select{width:100%;background:var(--input-bg);border:1px solid var(--glass-border);color:var(--text);padding:11px 14px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:.92rem;outline:none;cursor:pointer;}
+.form-select option{background:var(--surface3);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.radio-group{display:flex;flex-direction:column;gap:9px;margin-top:7px;}
+.radio-opt{display:flex;align-items:center;gap:12px;cursor:pointer;padding:11px 14px;background:var(--input-bg);border:1px solid var(--glass-border);border-radius:8px;transition:var(--transition);}
+.radio-opt:hover,.radio-opt.selected{border-color:var(--red);}
+.radio-opt input{accent-color:var(--red);}
+.radio-label{font-size:.88rem;color:var(--text);}
+.radio-price{margin-left:auto;color:var(--muted);font-size:.83rem;}
+.form-error{color:var(--red);font-size:.78rem;margin-top:5px;}
+.form-success{color:var(--green);font-size:.78rem;margin-top:5px;}
+
+/* ===== AUTH ===== */
+.auth-tabs{display:flex;margin-bottom:24px;border-bottom:1px solid var(--glass-border);}
+.auth-tab{background:none;border:none;color:var(--muted);padding:11px 22px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-size:.82rem;border-bottom:2px solid transparent;margin-bottom:-1px;transition:var(--transition);}
+.auth-tab.active{color:var(--red);border-bottom-color:var(--red);}
+
+/* ===== CHECKOUT ===== */
+.checkout-modal{max-width:620px;}
+.order-summary{background:var(--surface3);border-radius:10px;padding:18px;margin-bottom:22px;}
+.order-summary-title{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:14px;}
+.summary-row{display:flex;justify-content:space-between;margin-bottom:9px;font-size:.88rem;color:var(--text);}
+.summary-row.total{border-top:1px solid var(--glass-border);padding-top:9px;margin-top:9px;font-weight:700;font-size:1.05rem;}
+.discount-badge{color:var(--red);font-size:.75rem;font-weight:700;}
+.trainer-info-box{background:rgba(214,40,40,.08);border:1px solid rgba(214,40,40,.25);border-radius:8px;padding:11px;margin-top:7px;font-size:.83rem;color:var(--red);}
+.checkout-steps{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--glass-border);}
+.checkout-step-btn{background:none;border:none;color:var(--muted);padding:10px 20px;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:1px;text-transform:uppercase;font-size:.8rem;border-bottom:2px solid transparent;margin-bottom:-1px;transition:var(--transition);}
+.checkout-step-btn.active{color:var(--red);border-bottom-color:var(--red);}
+.checkout-step-btn.done{color:var(--green);}
+.step-panel{display:none;}
+.step-panel.active{display:block;}
+
+/* ===== MY ORDERS ===== */
+.orders-modal{max-width:680px;}
+.order-item-card{background:var(--surface3);border-radius:10px;padding:16px;margin-bottom:11px;border:1px solid var(--glass-border);}
+.order-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;flex-wrap:wrap;gap:8px;}
+.order-id-label{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:1px;color:var(--muted);}
+.order-status-badge{padding:4px 11px;border-radius:50px;font-size:.68rem;letter-spacing:1px;text-transform:uppercase;font-weight:700;}
+.status-confirmed,.status-delivered{background:rgba(76,175,80,.15);color:#4caf50;}
+.status-pending{background:rgba(255,193,7,.15);color:#ffc107;}
+.status-processing{background:rgba(33,150,243,.15);color:#2196f3;}
+.status-shipped{background:rgba(156,39,176,.15);color:#9c27b0;}
+.order-total-val{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;color:var(--red);letter-spacing:2px;}
+.orders-stat-row{display:flex;gap:16px;margin-bottom:24px;}
+.orders-stat-box{background:var(--surface3);border-radius:10px;padding:14px 22px;flex:1;border:1px solid var(--glass-border);}
+.orders-stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--red);letter-spacing:2px;}
+.orders-stat-lab{color:var(--muted);font-size:.68rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;}
+
+/* ===== BLOG ===== */
+#blog{background:var(--bg);}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
+.blog-card{background:var(--surface2);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:var(--transition);}
+.blog-card:hover{transform:translateY(-4px);border-color:rgba(214,40,40,.3);box-shadow:var(--shadow);}
+.blog-img{height:190px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:3.8rem;color:rgba(214,40,40,.3);overflow:hidden;position:relative;}
+.blog-img img{width:100%;height:100%;object-fit:cover;}
+.blog-body{padding:22px;}
+.blog-cat{color:var(--red);font-size:.68rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:9px;}
+.blog-title{font-family:'Barlow Condensed',sans-serif;font-size:1.35rem;font-weight:700;margin-bottom:11px;line-height:1.3;color:var(--text);}
+.blog-excerpt{color:var(--muted);font-size:.85rem;line-height:1.6;}
+.blog-read{display:inline-flex;align-items:center;gap:7px;color:var(--red);font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:14px;}
+.blog-modal-content{max-width:680px;}
+.blog-modal-img{height:260px;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:5rem;color:rgba(214,40,40,.3);border-radius:10px;margin-bottom:24px;overflow:hidden;}
+.blog-modal-img img{width:100%;height:100%;object-fit:cover;}
+.blog-modal-cat{color:var(--red);font-size:.68rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:10px;}
+.blog-modal-title{font-family:'Bebas Neue',sans-serif;font-size:2.3rem;letter-spacing:2px;margin-bottom:18px;line-height:1;color:var(--text);}
+.blog-modal-text{color:var(--muted);line-height:1.8;font-size:.92rem;}
+.blog-modal-text p{margin-bottom:14px;}
+
+/* ===== FOOTER ===== */
+footer{background:var(--surface);border-top:1px solid var(--glass-border);padding:56px 40px 36px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px;}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:4px;margin-bottom:14px;color:var(--text);}
+.footer-brand span{color:var(--red);}
+.footer-desc{color:var(--muted);font-size:.86rem;line-height:1.7;}
+.footer-heading{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:18px;color:var(--text);}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.86rem;transition:var(--transition);}
+.footer-links a:hover{color:var(--red);}
+.footer-contact p{color:var(--muted);font-size:.86rem;margin-bottom:9px;display:flex;align-items:center;gap:9px;}
+.footer-contact i{color:var(--red);}
+.footer-bottom{border-top:1px solid var(--glass-border);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+.footer-copy{color:var(--muted);font-size:.78rem;}
+.social-links{display:flex;gap:10px;}
+.social-link{width:34px;height:34px;background:var(--glass);border:1px solid var(--glass-border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;transition:var(--transition);}
+.social-link:hover{background:var(--red);border-color:var(--red);color:#fff;}
+
+/* ===== TOAST ===== */
+.toast-container{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;gap:9px;}
+.toast{background:var(--surface2);border:1px solid var(--glass-border);border-left:3px solid var(--red);color:var(--text);padding:13px 18px;border-radius:10px;font-size:.86rem;max-width:290px;animation:toastIn .3s ease;box-shadow:var(--shadow);}
+.toast.success{border-left-color:var(--green);}
+.toast.info{border-left-color:var(--blue);}
+@keyframes toastIn{from{transform:translateX(110%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes toastOut{from{opacity:1;}to{opacity:0;transform:translateX(110%);}}
+
+/* ===== PRODUCT DETAIL MODAL ===== */
+.product-detail-modal{max-width:660px;}
+.pd-inner{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.pd-img{height:280px;background:var(--surface3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:5rem;color:rgba(214,40,40,.25);overflow:hidden;}
+.pd-img img{width:100%;height:100%;object-fit:cover;}
+.pd-info{display:flex;flex-direction:column;gap:10px;}
+.pd-cat{color:var(--red);font-size:.68rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;}
+.pd-name{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:2px;line-height:1;color:var(--text);}
+.pd-price{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--red);letter-spacing:2px;}
+.pd-sales{color:var(--muted);font-size:.8rem;}
+.pd-qty-row{display:flex;align-items:center;gap:12px;margin-top:8px;}
+.pd-qty-label{color:var(--muted);font-size:.78rem;letter-spacing:1px;text-transform:uppercase;}
+.pd-qty-ctrl{display:flex;align-items:center;gap:8px;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:880px){
+  nav{padding:0 18px;}
+  .nav-links{display:none;}
+  .hamburger{display:block;}
+  section{padding:56px 18px;}
+  .hero-content{padding:0 18px;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .cart-sidebar{width:100%;}
+  .form-row{grid-template-columns:1fr;}
+  .pd-inner{grid-template-columns:1fr;}
+}
+@media(max-width:580px){
+  .hero-stats{gap:20px;}
+  .footer-grid{grid-template-columns:1fr;}
+  .modal{padding:22px;width:98%;}
+  .shop-controls{flex-direction:column;align-items:flex-start;}
+  .search-sort{flex-direction:column;width:100%;}
+  .search-input{width:100%;}
+  .orders-stat-row{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">POWER<span>9</span></div>
+  <div class="nav-links">
+    <a href="#products" data-i18n="nav_shop">SHOP</a>
+    <a href="#blog" data-i18n="nav_blog">BLOG</a>
+    <a href="#footer" data-i18n="nav_contact">CONTACT</a>
+    <a href="crm.html" target="_blank" id="admin-link" class="admin-link" style="display:none;" data-i18n="nav_admin">CRM ADMIN</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ro">RO</button>
+      <button class="lang-btn" data-lang="ru">RU</button>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+    <button class="cart-btn" id="cart-toggle"><i class="fas fa-shopping-cart"></i><span class="cart-badge" id="cart-badge">0</span></button>
+    <div id="auth-area"><button class="auth-btn" id="login-btn">SIGN IN</button></div>
+  </div>
+  <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#products" data-i18n="nav_shop">SHOP</a>
+  <a href="#blog" data-i18n="nav_blog">BLOG</a>
+  <a href="#footer" data-i18n="nav_contact">CONTACT</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><i class="fas fa-bolt"></i><span data-i18n="hero_tag">PREMIUM SPORTS NUTRITION</span></div>
+    <h1 class="hero-title"><span data-i18n="hero_t1">FUEL YOUR</span><span data-i18n="hero_t2">PERFORMANCE</span></h1>
+    <p class="hero-subtitle" data-i18n="hero_sub">Elite-grade supplements engineered for athletes who refuse to settle. Science-backed formulas for real results.</p>
+    <div class="hero-cta">
+      <a href="#products" class="btn-primary"><i class="fas fa-shopping-bag"></i><span data-i18n="hero_shop">SHOP NOW</span></a>
+      <a href="#blog" class="btn-outline"><i class="fas fa-book-open"></i><span data-i18n="hero_learn">LEARN MORE</span></a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">9K+</div><div class="stat-label" data-i18n="stat_athletes">Athletes</div></div>
+      <div><div class="stat-num">40+</div><div class="stat-label" data-i18n="stat_products">Products</div></div>
+      <div><div class="stat-num">99%</div><div class="stat-label" data-i18n="stat_pure">Purity</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-header">
+    <div class="section-tag" data-i18n="shop_tag">OUR PRODUCTS</div>
+    <h2 class="section-title" data-i18n="shop_title">ELITE SUPPLEMENTS</h2>
+    <p class="section-sub" data-i18n="shop_sub">Professionally formulated for maximum performance</p>
+  </div>
+  <div class="shop-controls">
+    <div class="filters" id="category-filters">
+      <button class="filter-btn active" data-cat="all" data-i18n="cat_all">ALL</button>
+      <button class="filter-btn" data-cat="protein" data-i18n="cat_protein">PROTEIN</button>
+      <button class="filter-btn" data-cat="preworkout" data-i18n="cat_preworkout">PRE-WORKOUT</button>
+      <button class="filter-btn" data-cat="recovery" data-i18n="cat_recovery">RECOVERY</button>
+      <button class="filter-btn" data-cat="creatine" data-i18n="cat_creatine">CREATINE</button>
+      <button class="filter-btn" data-cat="vitamins" data-i18n="cat_vitamins">VITAMINS</button>
+      <button class="filter-btn" data-cat="bars" data-i18n="cat_bars">BARS</button>
+    </div>
+    <div class="search-sort">
+      <input class="search-input" id="search-input" type="text" data-ph-i18n="search_ph" placeholder="Search..."/>
+      <select class="sort-select" id="sort-select">
+        <option value="default" data-i18n="sort_def">Sort by</option>
+        <option value="price-asc" data-i18n="sort_asc">Price ↑</option>
+        <option value="price-desc" data-i18n="sort_desc">Price ↓</option>
+      </select>
+    </div>
+  </div>
+  <div class="product-grid" id="product-grid"></div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-header">
+    <div class="section-tag" data-i18n="blog_tag">KNOWLEDGE</div>
+    <h2 class="section-title" data-i18n="blog_title">POWER BLOG</h2>
+    <p class="section-sub" data-i18n="blog_sub">Science-backed insights to maximize your gains</p>
+  </div>
+  <div class="blog-grid" id="blog-grid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">POWER<span>9</span></div>
+      <p class="footer-desc" data-i18n="footer_desc">Premium sports nutrition crafted for athletes who demand the best.</p>
+    </div>
+    <div>
+      <div class="footer-heading" data-i18n="footer_shop">Shop</div>
+      <ul class="footer-links">
+        <li><a href="#products" data-i18n="cat_protein">Protein</a></li>
+        <li><a href="#products" data-i18n="cat_preworkout">Pre-Workout</a></li>
+        <li><a href="#products" data-i18n="cat_creatine">Creatine</a></li>
+        <li><a href="#products" data-i18n="cat_vitamins">Vitamins</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading" data-i18n="footer_company">Company</div>
+      <ul class="footer-links">
+        <li><a href="#" data-i18n="footer_about">About Us</a></li>
+        <li><a href="#" data-i18n="footer_privacy">Privacy</a></li>
+        <li><a href="#blog" data-i18n="nav_blog">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-heading" data-i18n="nav_contact">Contact</div>
+      <p><i class="fas fa-map-marker-alt"></i>Chișinău, Moldova</p>
+      <p><i class="fas fa-phone"></i>+373 69 123 456</p>
+      <p><i class="fas fa-envelope"></i>info@power9.md</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 POWER9. All rights reserved.</div>
+    <div class="social-links">
+      <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+    </div>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <div class="cart-title" data-i18n="cart_title">YOUR CART</div>
+    <button class="close-btn" id="cart-close"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label" data-i18n="cart_total">Total</span>
+      <span class="cart-total-amount" id="cart-total-amount">0 MDL</span>
+    </div>
+    <button class="checkout-btn" id="checkout-btn" data-i18n="cart_checkout">PROCEED TO CHECKOUT</button>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" id="auth-close"><i class="fas fa-times"></i></button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="signin-tab" data-i18n="auth_signin">SIGN IN</button>
+      <button class="auth-tab" id="signup-tab" data-i18n="auth_signup">SIGN UP</button>
+    </div>
+    <div id="signin-form">
+      <h2 data-i18n="auth_welcome">WELCOME BACK</h2>
+      <div class="form-group"><label class="form-label" data-i18n="auth_user">Username</label><input class="form-input" id="si-user" type="text" autocomplete="username"/></div>
+      <div class="form-group"><label class="form-label" data-i18n="auth_pass">Password</label><input class="form-input" id="si-pass" type="password"/></div>
+      <div id="si-err" class="form-error" style="display:none;margin-bottom:14px;"></div>
+      <button class="btn-primary" id="si-submit" style="width:100%;" data-i18n="auth_signin">SIGN IN</button>
+    </div>
+    <div id="signup-form" style="display:none;">
+      <h2 data-i18n="auth_create">CREATE ACCOUNT</h2>
+      <div class="form-group"><label class="form-label" data-i18n="auth_user">Username</label><input class="form-input" id="su-user" type="text"/></div>
+      <div class="form-group"><label class="form-label" data-i18n="auth_email">Email</label><input class="form-input" id="su-email" type="email"/></div>
+      <div class="form-group"><label class="form-label" data-i18n="auth_pass">Password</label><input class="form-input" id="su-pass" type="password"/></div>
+      <div id="su-err" class="form-error" style="display:none;margin-bottom:14px;"></div>
+      <div id="su-ok" class="form-success" style="display:none;margin-bottom:14px;"></div>
+      <button class="btn-primary" id="su-submit" style="width:100%;" data-i18n="auth_signup">SIGN UP</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkout-modal">
+  <div class="modal checkout-modal" style="max-width:640px;">
+    <button class="modal-close" id="checkout-close"><i class="fas fa-times"></i></button>
+    <h2 data-i18n="checkout_title">CHECKOUT</h2>
+    <div id="checkout-body">
+      <div class="checkout-steps">
+        <button class="checkout-step-btn active" data-step="0">1. Cart</button>
+        <button class="checkout-step-btn" data-step="1">2. Delivery</button>
+        <button class="checkout-step-btn" data-step="2">3. Confirm</button>
+      </div>
+      <!-- Step 0: Summary -->
+      <div class="step-panel active" id="step-0">
+        <div class="order-summary" id="checkout-summary-0"></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="checkout_trainer">Trainer Code (optional – 10% off)</label>
+          <input class="form-input" id="co-trainer" type="text" style="text-transform:uppercase;" placeholder="e.g. TR1"/>
+          <div id="trainer-info-box" class="trainer-info-box" style="display:none;"></div>
+        </div>
+        <button class="btn-primary" id="step0-next" style="width:100%;margin-top:8px;">CONTINUE <i class="fas fa-arrow-right"></i></button>
+      </div>
+      <!-- Step 1: Delivery details -->
+      <div class="step-panel" id="step-1">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label" data-i18n="co_name">Full Name</label><input class="form-input" id="co-name" type="text"/></div>
+          <div class="form-group"><label class="form-label" data-i18n="co_phone">Phone</label><input class="form-input" id="co-phone" type="tel" placeholder="+373..."/></div>
+        </div>
+        <div class="form-group"><label class="form-label" data-i18n="co_addr">Delivery Address</label><input class="form-input" id="co-addr" type="text" placeholder="Street, City, Postal Code"/></div>
+        <div class="form-group"><label class="form-label" data-i18n="co_notes">Order Notes (optional)</label><input class="form-input" id="co-notes" type="text" placeholder="Any special instructions..."/></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="co_delivery">Delivery Method</label>
+          <div class="radio-group">
+            <label class="radio-opt selected" id="opt-std"><input type="radio" name="delivery" value="standard" checked/><span class="radio-label" data-i18n="del_std">Standard (3–5 days)</span><span class="radio-price" data-i18n="del_free">FREE</span></label>
+            <label class="radio-opt" id="opt-exp"><input type="radio" name="delivery" value="express"/><span class="radio-label" data-i18n="del_exp">Express (1–2 days)</span><span class="radio-price">+50 MDL</span></label>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="btn-outline" id="step1-back" style="flex:1;"><i class="fas fa-arrow-left"></i> BACK</button>
+          <button class="btn-primary" id="step1-next" style="flex:2;">REVIEW ORDER <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+      <!-- Step 2: Confirm -->
+      <div class="step-panel" id="step-2">
+        <div class="order-summary" id="checkout-summary-2"></div>
+        <div id="co-err" class="form-error" style="display:none;margin-bottom:14px;"></div>
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="btn-outline" id="step2-back" style="flex:1;"><i class="fas fa-arrow-left"></i> BACK</button>
+          <button class="btn-primary" id="place-order-btn" style="flex:2;"><i class="fas fa-check"></i> PLACE ORDER</button>
+        </div>
+      </div>
+    </div>
+    <!-- Success -->
+    <div id="checkout-success" style="display:none;text-align:center;padding:40px 0;">
+      <i class="fas fa-check-circle" style="font-size:4rem;color:var(--green);margin-bottom:18px;display:block;"></i>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:3px;margin-bottom:10px;color:var(--text);" data-i18n="order_ok_title">ORDER CONFIRMED!</h3>
+      <p style="color:var(--muted);" data-i18n="order_ok_sub">Thank you! We'll contact you shortly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MY ORDERS MODAL -->
+<div class="modal-overlay" id="orders-modal">
+  <div class="modal orders-modal" style="max-width:700px;">
+    <button class="modal-close" id="orders-close"><i class="fas fa-times"></i></button>
+    <h2 data-i18n="my_orders">MY ORDERS</h2>
+    <div class="orders-stat-row" id="orders-stat"></div>
+    <div id="orders-list"></div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal product-detail-modal" style="max-width:680px;">
+    <button class="modal-close" id="product-modal-close"><i class="fas fa-times"></i></button>
+    <div id="product-modal-inner"></div>
+  </div>
+</div>
+
+<!-- BLOG MODAL -->
+<div class="modal-overlay" id="blog-modal">
+  <div class="modal blog-modal-content">
+    <button class="modal-close" id="blog-close"><i class="fas fa-times"></i></button>
+    <div id="blog-modal-inner"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+// ========== KEYS ==========
+const KEYS={products:'power9_products',orders:'power9_orders',users:'power9_users',trainers:'power9_trainers',blog:'power9_blog',theme:'power9_theme'};
+
+// ========== DEFAULTS ==========
+const DEF_PRODUCTS=[
+  {id:'p1',nameEn:'Gold Whey Protein',nameRo:'Proteină Whey Gold',nameRu:'Сывороточный протеин Gold',category:'protein',price:449,imageBase64:'',sales:142},
+  {id:'p2',nameEn:'Plant Power Protein',nameRo:'Proteină Vegană',nameRu:'Растительный протеин',category:'protein',price:399,imageBase64:'',sales:87},
+  {id:'p3',nameEn:'PreFire Pre-Workout',nameRo:'Pre-Workout PreFire',nameRu:'Пред-тренировочный PreFire',category:'preworkout',price:329,imageBase64:'',sales:215},
+  {id:'p4',nameEn:'Pure Creatine Mono',nameRo:'Creatină Monohidrat',nameRu:'Чистый Креатин',category:'creatine',price:199,imageBase64:'',sales:301},
+  {id:'p5',nameEn:'BCAA Elite Matrix',nameRo:'BCAA Elite',nameRu:'BCAA Элит',category:'recovery',price:279,imageBase64:'',sales:178},
+  {id:'p6',nameEn:'Athlete Multivitamin',nameRo:'Multivitamine Sportiv',nameRu:'Мультивитамины Атлет',category:'vitamins',price:159,imageBase64:'',sales:95},
+  {id:'p7',nameEn:'Power Protein Bar',nameRo:'Baton Proteic',nameRu:'Протеиновый батончик',category:'bars',price:39,imageBase64:'',sales:412},
+];
+const DEF_USERS=[
+  {username:'Power9Admin',password:'1111',role:'admin',email:'admin@power9.md'},
+  {username:'user',password:'2222',role:'user',email:'user@power9.md'},
+];
+const DEF_TRAINERS=[
+  {code:'TR1',name:'Coach Alex',commission:10,paidAmount:0},
+  {code:'POWER10',name:'Elite Trainer Mike',commission:10,paidAmount:0},
+];
+const DEF_BLOG=[
+  {id:'b1',cat:'Nutrition',icon:'fa-flask',titleEn:'The Science of Whey Protein',titleRo:'Știința Proteinei Whey',titleRu:'Наука о сывороточном протеине',excerptEn:'Discover why whey protein is the gold standard for muscle building.',excerptRo:'Descoperă de ce proteina whey este standardul de aur.',excerptRu:'Узнайте, почему сывороточный протеин — золотой стандарт.',contentEn:'<p>Whey protein is derived from milk during the cheese-making process. It is a complete protein containing all essential amino acids. Its rapid digestion rate makes it ideal for post-workout consumption.</p><p>Studies show that consuming 20–40g of whey protein after resistance training significantly accelerates muscle protein synthesis. The leucine content in whey directly triggers muscle-building pathways.</p><p>POWER9 Gold Whey is ultra-filtered to deliver 80% protein per serving with minimal lactose and fat, making it both effective and easy to digest.</p>',contentRo:'<p>Proteina whey este derivată din lapte în procesul de fabricare a brânzei. Este o proteină completă care conține toți aminoacizii esențiali. Rata rapidă de digestie o face ideală pentru consumul post-antrenament.</p><p>Studiile arată că consumul de 20–40g de proteină whey după antrenamentul de forță accelerează semnificativ sinteza proteinelor musculare. Conținutul ridicat de leucină declanșează direct căile de construire musculară.</p>',contentRu:'<p>Сывороточный протеин получают из молока в процессе производства сыра. Это полноценный белок, содержащий все незаменимые аминокислоты. Быстрая скорость переваривания делает его идеальным после тренировки.</p><p>Исследования показывают, что употребление 20–40г сывороточного протеина после силовых тренировок значительно ускоряет синтез мышечного белка.</p>',imageBase64:'',timestamp:Date.now()-86400000*2},
+  {id:'b2',cat:'Performance',icon:'fa-fire',titleEn:'Pre-Workout: Maximize Every Rep',titleRo:'Pre-Antrenament: Maximizează Fiecare Repetare',titleRu:'Пред-тренировка: Максимум каждого повтора',excerptEn:'Learn how the right pre-workout formula transforms your sessions.',excerptRo:'Află cum formula potrivită îți poate transforma antrenamentele.',excerptRu:'Узнайте, как правильная пред-тренировка изменит занятия.',contentEn:'<p>Pre-workout supplements enhance energy, focus, and endurance. Key evidence-based ingredients include caffeine, beta-alanine, citrulline malate, and creatine.</p><p>Caffeine is the most studied ergogenic aid. Beta-alanine buffers lactic acid build-up. POWER9 PreFire combines clinical doses in one powerful formula.</p>',contentRo:'<p>Suplimentele pre-antrenament îmbunătățesc energia, concentrarea și rezistența. Cafeina, beta-alanina și malatul de citrulină sunt ingrediente cheie.</p><p>POWER9 PreFire combină doze clinice pentru un impuls susținut de energie.</p>',contentRu:'<p>Пред-тренировочные добавки повышают энергию, концентрацию и выносливость. Ключевые ингредиенты: кофеин, бета-аланин, цитруллина малат.</p>',imageBase64:'',timestamp:Date.now()-86400000},
+  {id:'b3',cat:'Recovery',icon:'fa-heartbeat',titleEn:'BCAA & Recovery: Train More, Hurt Less',titleRo:'BCAA & Recuperare: Antrenează-te Mai Mult',titleRu:'BCAA и восстановление: больше тренировок',excerptEn:'Understand how BCAAs speed up recovery and prevent muscle breakdown.',excerptRo:'Înțelege cum BCAA-urile accelerează recuperarea.',excerptRu:'Разберитесь, как BCAA ускоряют восстановление.',contentEn:'<p>BCAAs — leucine, isoleucine, and valine — account for ~35% of essential amino acids in muscle proteins. They are metabolized directly in the muscle.</p><p>Research shows BCAA supplementation reduces exercise-induced damage, decreases soreness, and preserves lean mass. POWER9 BCAA Elite uses a 2:1:1 ratio.</p>',contentRo:'<p>BCAA-urile reprezintă ~35% din aminoacizii esențiali din proteinele musculare. Sunt metabolizate direct în mușchi.</p>',contentRu:'<p>BCAA составляют ~35% незаменимых аминокислот в мышечных белках и метаболизируются непосредственно в мышцах.</p>',imageBase64:'',timestamp:Date.now()},
+];
+
+// ========== STORAGE ==========
+function getData(k){try{return JSON.parse(localStorage.getItem(k))||null;}catch{return null;}}
+function setData(k,v){localStorage.setItem(k,JSON.stringify(v));}
+function initData(){
+  if(!getData(KEYS.products)) setData(KEYS.products,DEF_PRODUCTS);
+  if(!getData(KEYS.users))    setData(KEYS.users,DEF_USERS);
+  if(!getData(KEYS.trainers)) setData(KEYS.trainers,DEF_TRAINERS);
+  if(!getData(KEYS.orders))   setData(KEYS.orders,[]);
+  if(!getData(KEYS.blog))     setData(KEYS.blog,DEF_BLOG);
+}
+
+// ========== THEME ==========
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('theme-toggle').innerHTML=t==='dark'?'<i class="fas fa-sun"></i>':'<i class="fas fa-moon"></i>';
+  setData(KEYS.theme,t);
+}
+document.getElementById('theme-toggle').addEventListener('click',()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  applyTheme(cur==='dark'?'light':'dark');
+});
+
+// ========== I18N ==========
+const T={
+en:{
+  nav_shop:'SHOP',nav_blog:'BLOG',nav_contact:'CONTACT',nav_admin:'CRM ADMIN',
+  hero_tag:'PREMIUM SPORTS NUTRITION',hero_t1:'FUEL YOUR',hero_t2:'PERFORMANCE',
+  hero_sub:'Elite-grade supplements engineered for athletes who refuse to settle.',
+  hero_shop:'SHOP NOW',hero_learn:'LEARN MORE',
+  stat_athletes:'Athletes',stat_products:'Products',stat_pure:'Purity',
+  shop_tag:'OUR PRODUCTS',shop_title:'ELITE SUPPLEMENTS',shop_sub:'Professionally formulated for maximum performance',
+  cat_all:'ALL',cat_protein:'PROTEIN',cat_preworkout:'PRE-WORKOUT',cat_recovery:'RECOVERY',cat_creatine:'CREATINE',cat_vitamins:'VITAMINS',cat_bars:'BARS',
+  search_ph:'Search products...',sort_def:'Sort by',sort_asc:'Price ↑',sort_desc:'Price ↓',
+  blog_tag:'KNOWLEDGE',blog_title:'POWER BLOG',blog_sub:'Science-backed insights to maximize your gains',
+  footer_desc:'Premium sports nutrition for athletes who demand the best.',
+  footer_shop:'Shop',footer_company:'Company',footer_about:'About Us',footer_privacy:'Privacy',
+  auth_signin:'SIGN IN',auth_signup:'SIGN UP',auth_welcome:'WELCOME BACK',auth_create:'CREATE ACCOUNT',
+  auth_user:'Username',auth_email:'Email',auth_pass:'Password',
+  cart_title:'YOUR CART',cart_total:'Total',cart_checkout:'PROCEED TO CHECKOUT',
+  checkout_title:'CHECKOUT',co_name:'Full Name',co_phone:'Phone',co_addr:'Delivery Address',
+  co_notes:'Order Notes',co_delivery:'Delivery Method',checkout_trainer:'Trainer Code (optional)',
+  del_std:'Standard (3–5 days)',del_exp:'Express (1–2 days)',del_free:'FREE',
+  order_ok_title:'ORDER CONFIRMED!',order_ok_sub:'Thank you! We\'ll contact you shortly.',
+  my_orders:'MY ORDERS',orders_empty:'No orders yet.',
+  toast_added:'Added to cart!',toast_removed:'Removed',toast_ordered:'Order placed!',
+},
+ro:{
+  nav_shop:'MAGAZIN',nav_blog:'BLOG',nav_contact:'CONTACT',nav_admin:'CRM ADMIN',
+  hero_tag:'NUTRIȚIE SPORTIVĂ PREMIUM',hero_t1:'ALIMENTEAZĂ',hero_t2:'PERFORMANȚA',
+  hero_sub:'Suplimente de elită pentru sportivii care refuză compromisurile.',
+  hero_shop:'CUMPĂRĂ ACUM',hero_learn:'AFLĂ MAI MULT',
+  stat_athletes:'Atleți',stat_products:'Produse',stat_pure:'Puritate',
+  shop_tag:'PRODUSELE NOASTRE',shop_title:'SUPLIMENTE ELITE',shop_sub:'Formulate profesional pentru performanță maximă',
+  cat_all:'TOATE',cat_protein:'PROTEINE',cat_preworkout:'PRE-ANTRENAMENT',cat_recovery:'RECUPERARE',cat_creatine:'CREATINĂ',cat_vitamins:'VITAMINE',cat_bars:'BATOANE',
+  search_ph:'Caută produse...',sort_def:'Sortează',sort_asc:'Preț ↑',sort_desc:'Preț ↓',
+  blog_tag:'CUNOȘTINȚE',blog_title:'POWER BLOG',blog_sub:'Perspective bazate pe știință pentru progresul tău',
+  footer_desc:'Nutriție sportivă premium pentru sportivii care cer ce e mai bun.',
+  footer_shop:'Magazin',footer_company:'Companie',footer_about:'Despre Noi',footer_privacy:'Confidențialitate',
+  auth_signin:'CONECTARE',auth_signup:'ÎNREGISTRARE',auth_welcome:'BINE AI REVENIT',auth_create:'CREAZĂ CONT',
+  auth_user:'Utilizator',auth_email:'Email',auth_pass:'Parolă',
+  cart_title:'COȘUL TĂU',cart_total:'Total',cart_checkout:'FINALIZEAZĂ COMANDA',
+  checkout_title:'FINALIZARE',co_name:'Nume complet',co_phone:'Telefon',co_addr:'Adresă livrare',
+  co_notes:'Note comandă',co_delivery:'Metoda de livrare',checkout_trainer:'Cod trainer (opțional)',
+  del_std:'Standard (3–5 zile)',del_exp:'Express (1–2 zile)',del_free:'GRATUIT',
+  order_ok_title:'COMANDĂ CONFIRMATĂ!',order_ok_sub:'Mulțumim! Te vom contacta în scurt timp.',
+  my_orders:'COMENZILE MELE',orders_empty:'Nicio comandă încă.',
+  toast_added:'Adăugat în coș!',toast_removed:'Eliminat',toast_ordered:'Comandă plasată!',
+},
+ru:{
+  nav_shop:'МАГАЗИН',nav_blog:'БЛОГ',nav_contact:'КОНТАКТ',nav_admin:'CRM ADMIN',
+  hero_tag:'ПРЕМИУМ СПОРТИВНОЕ ПИТАНИЕ',hero_t1:'ЗАРЯДИ',hero_t2:'РЕЗУЛЬТАТ',
+  hero_sub:'Элитные добавки для спортсменов, которые не идут на компромисс.',
+  hero_shop:'КУПИТЬ',hero_learn:'УЗНАТЬ БОЛЬШЕ',
+  stat_athletes:'Атлеты',stat_products:'Продукты',stat_pure:'Чистота',
+  shop_tag:'НАШИ ПРОДУКТЫ',shop_title:'ЭЛИТНЫЕ ДОБАВКИ',shop_sub:'Профессиональные формулы для максимальной производительности',
+  cat_all:'ВСЕ',cat_protein:'ПРОТЕИН',cat_preworkout:'ПРЕ-ТРЕНИРОВКА',cat_recovery:'ВОССТАНОВЛЕНИЕ',cat_creatine:'КРЕАТИН',cat_vitamins:'ВИТАМИНЫ',cat_bars:'БАТОНЧИКИ',
+  search_ph:'Поиск продуктов...',sort_def:'Сортировать',sort_asc:'Цена ↑',sort_desc:'Цена ↓',
+  blog_tag:'ЗНАНИЯ',blog_title:'POWER БЛОГ',blog_sub:'Научно обоснованные советы для прогресса',
+  footer_desc:'Премиальное спортивное питание для требовательных спортсменов.',
+  footer_shop:'Магазин',footer_company:'Компания',footer_about:'О нас',footer_privacy:'Конфиденциальность',
+  auth_signin:'ВОЙТИ',auth_signup:'РЕГИСТРАЦИЯ',auth_welcome:'С ВОЗВРАЩЕНИЕМ',auth_create:'СОЗДАТЬ АККАУНТ',
+  auth_user:'Имя пользователя',auth_email:'Email',auth_pass:'Пароль',
+  cart_title:'ВАША КОРЗИНА',cart_total:'Итого',cart_checkout:'ОФОРМИТЬ ЗАКАЗ',
+  checkout_title:'ОФОРМЛЕНИЕ',co_name:'Полное имя',co_phone:'Телефон',co_addr:'Адрес доставки',
+  co_notes:'Примечания',co_delivery:'Способ доставки',checkout_trainer:'Код тренера (опционально)',
+  del_std:'Стандарт (3–5 дней)',del_exp:'Экспресс (1–2 дня)',del_free:'БЕСПЛАТНО',
+  order_ok_title:'ЗАКАЗ ПОДТВЕРЖДЁН!',order_ok_sub:'Спасибо! Мы свяжемся с вами.',
+  my_orders:'МОИ ЗАКАЗЫ',orders_empty:'Заказов пока нет.',
+  toast_added:'Добавлено!',toast_removed:'Удалено',toast_ordered:'Заказ размещён!',
+}};
+
+let lang='en';
+function t(k){return T[lang][k]||T.en[k]||k;}
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k])el.textContent=T[lang][k];});
+  document.querySelectorAll('[data-ph-i18n]').forEach(el=>{const k=el.getAttribute('data-ph-i18n');if(T[lang][k])el.placeholder=T[lang][k];});
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+  renderProducts();renderBlog();renderCart();
+}
+document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{lang=b.dataset.lang;applyLang();}));
+
+// ========== STATE ==========
+let cart=[];
+let currentUser=null;
+let activeCat='all';
+let searchQ='';
+let sortMode='default';
+let checkoutStep=0;
+let checkoutTrainer=null;
+let deliveryMode='standard';
+
+function pName(p){return lang==='ro'?p.nameRo:lang==='ru'?p.nameRu:p.nameEn;}
+
+// ========== PRODUCTS ==========
+function renderProducts(){
+  const products=getData(KEYS.products)||[];
+  const grid=document.getElementById('product-grid');
+  let list=products.filter(p=>{
+    const mc=activeCat==='all'||p.category===activeCat;
+    const ms=!searchQ||pName(p).toLowerCase().includes(searchQ.toLowerCase());
+    return mc&&ms;
+  });
+  if(sortMode==='price-asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='price-desc') list.sort((a,b)=>b.price-a.price);
+  if(!list.length){grid.innerHTML='<div style="color:var(--muted);padding:40px;grid-column:1/-1;text-align:center;">No products found.</div>';return;}
+  grid.innerHTML=list.map(p=>`
+    <div class="product-card" data-id="${p.id}">
+      <div class="product-img">
+        ${p.imageBase64?`<img src="${p.imageBase64}" alt="${pName(p)}"/>`:`<i class="fas fa-dumbbell icon-placeholder"></i>`}
+        ${p.sales>200?`<div class="product-badge">HOT</div>`:''}
+      </div>
+      <div class="product-body">
+        <div class="product-cat">${p.category}</div>
+        <div class="product-name">${pName(p)}</div>
+        <div class="product-footer">
+          <div class="product-price">${p.price} <small>MDL</small></div>
+          <button class="add-cart-btn" data-id="${p.id}"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.add-cart-btn').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();addToCart(btn.dataset.id);}));
+  grid.querySelectorAll('.product-card').forEach(card=>card.addEventListener('click',e=>{if(!e.target.closest('.add-cart-btn'))openProductDetail(card.dataset.id);}));
+}
+
+function openProductDetail(id){
+  const products=getData(KEYS.products)||[];
+  const p=products.find(x=>x.id===id);if(!p)return;
+  let qty=1;
+  document.getElementById('product-modal-inner').innerHTML=`
+    <div class="pd-inner">
+      <div class="pd-img">${p.imageBase64?`<img src="${p.imageBase64}" alt=""/>` :`<i class="fas fa-dumbbell"></i>`}</div>
+      <div class="pd-info">
+        <div class="pd-cat">${p.category.toUpperCase()}</div>
+        <div class="pd-name">${pName(p)}</div>
+        <div class="pd-price">${p.price} <span style="font-size:1rem;font-family:'Barlow',sans-serif;color:var(--muted);">MDL</span></div>
+        <div class="pd-sales"><i class="fas fa-fire" style="color:var(--red);"></i> ${p.sales||0} units sold</div>
+        <div class="pd-qty-row">
+          <span class="pd-qty-label">Qty:</span>
+          <div class="pd-qty-ctrl">
+            <button class="qty-btn" id="pd-dec"><i class="fas fa-minus"></i></button>
+            <span class="qty-num" id="pd-qty">1</span>
+            <button class="qty-btn" id="pd-inc"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <button class="btn-primary" id="pd-add" style="margin-top:16px;width:100%;"><i class="fas fa-cart-plus"></i> ADD TO CART</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('pd-dec').addEventListener('click',()=>{if(qty>1){qty--;document.getElementById('pd-qty').textContent=qty;}});
+  document.getElementById('pd-inc').addEventListener('click',()=>{qty++;document.getElementById('pd-qty').textContent=qty;});
+  document.getElementById('pd-add').addEventListener('click',()=>{for(let i=0;i<qty;i++)addToCart(id);closeModal('product-modal');});
+  openModal('product-modal');
+}
+document.getElementById('product-modal-close').addEventListener('click',()=>closeModal('product-modal'));
+
+document.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); activeCat=b.dataset.cat; renderProducts();
+}));
+document.getElementById('search-input').addEventListener('input',e=>{searchQ=e.target.value;renderProducts();});
+document.getElementById('sort-select').addEventListener('change',e=>{sortMode=e.target.value;renderProducts();});
+
+// ========== CART ==========
+function addToCart(id){
+  const products=getData(KEYS.products)||[];
+  const p=products.find(x=>x.id===id);if(!p)return;
+  const ex=cart.find(x=>x.id===id);
+  if(ex)ex.qty++;
+  else cart.push({id,nameEn:p.nameEn,nameRo:p.nameRo,nameRu:p.nameRu,price:p.price,qty:1,imageBase64:p.imageBase64});
+  renderCart();showToast(t('toast_added'),'success');
+}
+function renderCart(){
+  const itemsEl=document.getElementById('cart-items-list');
+  const badge=document.getElementById('cart-badge');
+  const totalEl=document.getElementById('cart-total-amount');
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const qty=cart.reduce((s,i)=>s+i.qty,0);
+  badge.textContent=qty;badge.classList.toggle('visible',qty>0);
+  totalEl.textContent=total+' MDL';
+  if(!cart.length){itemsEl.innerHTML=`<div class="cart-empty"><i class="fas fa-shopping-cart"></i><span>Your cart is empty</span></div>`;return;}
+  itemsEl.innerHTML=cart.map((item,idx)=>`
+    <div class="cart-item">
+      <div class="cart-item-img">${item.imageBase64?`<img src="${item.imageBase64}"/>`:`<i class="fas fa-dumbbell"></i>`}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${lang==='ro'?item.nameRo:lang==='ru'?item.nameRu:item.nameEn}</div>
+        <div class="cart-item-price">${item.price*item.qty} MDL</div>
+        <div class="cart-item-controls">
+          <button class="qty-btn" data-a="dec" data-i="${idx}"><i class="fas fa-minus"></i></button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" data-a="inc" data-i="${idx}"><i class="fas fa-plus"></i></button>
+          <button class="remove-btn" data-i="${idx}"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    </div>`).join('');
+  itemsEl.querySelectorAll('.qty-btn').forEach(b=>b.addEventListener('click',()=>{
+    const i=+b.dataset.i;
+    if(b.dataset.a==='inc')cart[i].qty++;
+    else{cart[i].qty--;if(cart[i].qty<=0)cart.splice(i,1);}
+    renderCart();
+  }));
+  itemsEl.querySelectorAll('.remove-btn').forEach(b=>b.addEventListener('click',()=>{
+    cart.splice(+b.dataset.i,1);renderCart();showToast(t('toast_removed'));
+  }));
+}
+document.getElementById('cart-toggle').addEventListener('click',()=>{document.getElementById('cart-sidebar').classList.add('open');document.getElementById('cart-overlay').classList.add('open');});
+document.getElementById('cart-close').addEventListener('click',closeCart);
+document.getElementById('cart-overlay').addEventListener('click',closeCart);
+function closeCart(){document.getElementById('cart-sidebar').classList.remove('open');document.getElementById('cart-overlay').classList.remove('open');}
+
+// ========== AUTH ==========
+function loadSession(){const s=sessionStorage.getItem('p9user');if(s)try{currentUser=JSON.parse(s);}catch{}}
+function renderAuthArea(){
+  const area=document.getElementById('auth-area');
+  const adminLink=document.getElementById('admin-link');
+  if(currentUser){
+    area.innerHTML=`<div class="user-menu"><span class="user-name">${currentUser.username}</span><button class="user-link" id="my-orders-btn">MY ORDERS</button><button class="user-link" id="logout-btn">LOGOUT</button></div>`;
+    document.getElementById('my-orders-btn').addEventListener('click',openMyOrders);
+    document.getElementById('logout-btn').addEventListener('click',doLogout);
+    adminLink.style.display=currentUser.role==='admin'?'block':'none';
+  } else {
+    area.innerHTML=`<button class="auth-btn" id="login-btn">SIGN IN</button>`;
+    document.getElementById('login-btn').addEventListener('click',()=>openModal('auth-modal'));
+    adminLink.style.display='none';
+  }
+}
+function doLogout(){sessionStorage.removeItem('p9user');currentUser=null;renderAuthArea();}
+
+document.getElementById('signin-tab').addEventListener('click',()=>{
+  document.getElementById('signin-tab').classList.add('active');document.getElementById('signup-tab').classList.remove('active');
+  document.getElementById('signin-form').style.display='block';document.getElementById('signup-form').style.display='none';
+});
+document.getElementById('signup-tab').addEventListener('click',()=>{
+  document.getElementById('signup-tab').classList.add('active');document.getElementById('signin-tab').classList.remove('active');
+  document.getElementById('signup-form').style.display='block';document.getElementById('signin-form').style.display='none';
+});
+document.getElementById('si-submit').addEventListener('click',()=>{
+  const u=document.getElementById('si-user').value.trim();
+  const p=document.getElementById('si-pass').value;
+  const users=getData(KEYS.users)||[];
+  const found=users.find(x=>x.username===u&&x.password===p);
+  const err=document.getElementById('si-err');
+  if(!found){err.textContent='Invalid credentials.';err.style.display='block';return;}
+  err.style.display='none';
+  currentUser=found;
+  sessionStorage.setItem('p9user',JSON.stringify(found));
+  closeModal('auth-modal');
+  renderAuthArea();
+  if(found.role==='admin'){
+    showToast('Welcome Admin! Opening CRM...','info');
+    setTimeout(()=>window.open('crm.html','_blank'),800);
+  }
+});
+document.getElementById('su-submit').addEventListener('click',()=>{
+  const u=document.getElementById('su-user').value.trim();
+  const e=document.getElementById('su-email').value.trim();
+  const p=document.getElementById('su-pass').value;
+  const err=document.getElementById('su-err');const ok=document.getElementById('su-ok');
+  if(!u||!e||!p){err.textContent='All fields required.';err.style.display='block';return;}
+  const users=getData(KEYS.users)||[];
+  if(users.find(x=>x.username===u)){err.textContent='Username already taken.';err.style.display='block';return;}
+  err.style.display='none';
+  users.push({username:u,password:p,email:e,role:'user'});
+  setData(KEYS.users,users);
+  ok.textContent='Account created! You can sign in.';ok.style.display='block';
+});
+document.getElementById('auth-close').addEventListener('click',()=>closeModal('auth-modal'));
+
+// ========== CHECKOUT ==========
+document.getElementById('checkout-btn').addEventListener('click',()=>{
+  if(!cart.length)return;
+  closeCart();
+  checkoutStep=0;checkoutTrainer=null;deliveryMode='standard';
+  document.getElementById('co-trainer').value='';
+  document.getElementById('trainer-info-box').style.display='none';
+  document.getElementById('co-err').style.display='none';
+  document.getElementById('checkout-body').style.display='block';
+  document.getElementById('checkout-success').style.display='none';
+  showStep(0);updateSummary();
+  openModal('checkout-modal');
+});
+function showStep(s){
+  checkoutStep=s;
+  document.querySelectorAll('.step-panel').forEach((p,i)=>p.classList.toggle('active',i===s));
+  document.querySelectorAll('.checkout-step-btn').forEach((b,i)=>{
+    b.classList.toggle('active',i===s);
+    b.classList.toggle('done',i<s);
+  });
+  if(s===2) updateConfirmSummary();
+}
+function updateSummary(){
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const disc=checkoutTrainer?Math.round(sub*checkoutTrainer.commission/100):0;
+  const items=cart.map(i=>`<div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:5px;"><span>${lang==='ro'?i.nameRo:lang==='ru'?i.nameRu:i.nameEn} ×${i.qty}</span><span>${i.price*i.qty} MDL</span></div>`).join('');
+  document.getElementById('checkout-summary-0').innerHTML=`
+    <div class="order-summary-title">ORDER SUMMARY</div>
+    ${items}
+    <div class="summary-row"><span>Subtotal</span><span>${sub} MDL</span></div>
+    ${disc?`<div class="summary-row"><span>Trainer Discount (${checkoutTrainer.commission}%)</span><span class="discount-badge">-${disc} MDL</span></div>`:''}
+    <div class="summary-row total"><span>Estimated Total</span><span>${sub-disc} MDL</span></div>
+  `;
+}
+function updateConfirmSummary(){
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const dFee=deliveryMode==='express'?50:0;
+  const disc=checkoutTrainer?Math.round(sub*checkoutTrainer.commission/100):0;
+  const total=sub+dFee-disc;
+  const items=cart.map(i=>`<div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:5px;"><span>${lang==='ro'?i.nameRo:lang==='ru'?i.nameRu:i.nameEn} ×${i.qty}</span><span>${i.price*i.qty} MDL</span></div>`).join('');
+  const name=document.getElementById('co-name').value;
+  const phone=document.getElementById('co-phone').value;
+  const addr=document.getElementById('co-addr').value;
+  document.getElementById('checkout-summary-2').innerHTML=`
+    <div class="order-summary-title">CONFIRM YOUR ORDER</div>
+    ${items}
+    <div class="summary-row"><span>Subtotal</span><span>${sub} MDL</span></div>
+    <div class="summary-row"><span>Delivery (${deliveryMode})</span><span>${dFee?'+'+dFee+' MDL':'FREE'}</span></div>
+    ${disc?`<div class="summary-row"><span>Trainer Discount</span><span class="discount-badge">-${disc} MDL</span></div>`:''}
+    <div class="summary-row total"><span>TOTAL</span><span>${total} MDL</span></div>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--glass-border);font-size:.85rem;color:var(--muted);">
+      <div><strong style="color:var(--text);">${name||'—'}</strong> · ${phone||'—'}</div>
+      <div>${addr||'—'}</div>
+      ${checkoutTrainer?`<div style="color:var(--red);margin-top:4px;"><i class="fas fa-tag"></i> Code: ${checkoutTrainer.code} (${checkoutTrainer.name})</div>`:''}
+    </div>
+  `;
+}
+
+// Trainer code live check
+document.getElementById('co-trainer').addEventListener('input',e=>{
+  const code=e.target.value.trim().toUpperCase();
+  const trainers=getData(KEYS.trainers)||[];
+  const found=trainers.find(x=>x.code===code);
+  const box=document.getElementById('trainer-info-box');
+  if(found){checkoutTrainer=found;box.innerHTML=`<i class="fas fa-check-circle"></i> ${found.name} — ${found.commission}% discount applied!`;box.style.display='block';}
+  else{checkoutTrainer=null;box.style.display='none';}
+  updateSummary();
+});
+// Delivery radio
+document.querySelectorAll('input[name="delivery"]').forEach(r=>r.addEventListener('change',e=>{
+  deliveryMode=e.target.value;
+  document.getElementById('opt-std').classList.toggle('selected',deliveryMode==='standard');
+  document.getElementById('opt-exp').classList.toggle('selected',deliveryMode==='express');
+}));
+document.getElementById('step0-next').addEventListener('click',()=>showStep(1));
+document.getElementById('step1-back').addEventListener('click',()=>showStep(0));
+document.getElementById('step1-next').addEventListener('click',()=>{
+  if(!document.getElementById('co-name').value.trim()||!document.getElementById('co-phone').value.trim()||!document.getElementById('co-addr').value.trim()){
+    showToast('Please fill Name, Phone and Address');return;
+  }
+  showStep(2);
+});
+document.getElementById('step2-back').addEventListener('click',()=>showStep(1));
+document.getElementById('place-order-btn').addEventListener('click',placeOrder);
+function placeOrder(){
+  const name=document.getElementById('co-name').value.trim();
+  const phone=document.getElementById('co-phone').value.trim();
+  const addr=document.getElementById('co-addr').value.trim();
+  const notes=document.getElementById('co-notes').value.trim();
+  if(!name||!phone||!addr){const e=document.getElementById('co-err');e.textContent='Fill all required fields.';e.style.display='block';return;}
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const dFee=deliveryMode==='express'?50:0;
+  const disc=checkoutTrainer?Math.round(sub*checkoutTrainer.commission/100):0;
+  const total=sub+dFee-disc;
+  const comm=disc;
+  const order={
+    id:'ORD-'+Date.now(),timestamp:new Date().toISOString(),
+    customer:name,phone,address:addr,notes,delivery:deliveryMode,
+    items:cart.map(i=>({id:i.id,name:i.nameEn,qty:i.qty,price:i.price})),
+    subtotal:sub,delivery_fee:dFee,discount:disc,total,
+    trainerCode:checkoutTrainer?checkoutTrainer.code:'',commission:comm,
+    status:'confirmed',user:currentUser?currentUser.username:'guest'
+  };
+  // Update sales
+  const products=getData(KEYS.products)||[];
+  cart.forEach(ci=>{const p=products.find(x=>x.id===ci.id);if(p)p.sales=(p.sales||0)+ci.qty;});
+  setData(KEYS.products,products);
+  const orders=getData(KEYS.orders)||[];
+  orders.unshift(order);
+  setData(KEYS.orders,orders);
+  cart=[];renderCart();
+  document.getElementById('checkout-body').style.display='none';
+  document.getElementById('checkout-success').style.display='block';
+  showToast(t('toast_ordered'),'success');
+  setTimeout(()=>closeModal('checkout-modal'),3500);
+}
+document.getElementById('checkout-close').addEventListener('click',()=>closeModal('checkout-modal'));
+
+// ========== MY ORDERS ==========
+function openMyOrders(){
+  if(!currentUser)return;
+  const orders=getData(KEYS.orders)||[];
+  const mine=orders.filter(o=>o.user===currentUser.username);
+  const spent=mine.reduce((s,o)=>s+o.total,0);
+  document.getElementById('orders-stat').innerHTML=`
+    <div class="orders-stat-box"><div class="orders-stat-val">${mine.length}</div><div class="orders-stat-lab">Orders</div></div>
+    <div class="orders-stat-box"><div class="orders-stat-val">${spent}</div><div class="orders-stat-lab">MDL Spent</div></div>
+  `;
+  const list=document.getElementById('orders-list');
+  if(!mine.length){list.innerHTML=`<p style="color:var(--muted);">${t('orders_empty')}</p>`;openModal('orders-modal');return;}
+  list.innerHTML=mine.map(o=>`
+    <div class="order-item-card">
+      <div class="order-item-header">
+        <span class="order-id-label">${o.id}</span>
+        <span class="order-status-badge status-${o.status}">${o.status}</span>
+        <span class="order-total-val">${o.total} MDL</span>
+      </div>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:4px;">${new Date(o.timestamp).toLocaleDateString()} · ${o.delivery}</div>
+      <div style="font-size:.82rem;color:var(--muted);">${o.items.map(i=>i.name+' ×'+i.qty).join(', ')}</div>
+      ${o.address?`<div style="font-size:.8rem;color:var(--muted);margin-top:4px;"><i class="fas fa-map-marker-alt" style="color:var(--red);"></i> ${o.address}</div>`:''}
+      ${o.trainerCode?`<div style="font-size:.78rem;color:var(--red);margin-top:4px;"><i class="fas fa-tag"></i> Trainer: ${o.trainerCode} (−${o.discount||0} MDL)</div>`:''}
+    </div>
+  `).join('');
+  openModal('orders-modal');
+}
+document.getElementById('orders-close').addEventListener('click',()=>closeModal('orders-modal'));
+
+// ========== BLOG ==========
+function renderBlog(){
+  const posts=getData(KEYS.blog)||[];
+  const sorted=[...posts].sort((a,b)=>b.timestamp-a.timestamp);
+  const grid=document.getElementById('blog-grid');
+  grid.innerHTML=sorted.map(a=>`
+    <div class="blog-card" data-id="${a.id}">
+      <div class="blog-img">${a.imageBase64?`<img src="${a.imageBase64}" alt=""/>` :`<i class="fas ${a.icon||'fa-newspaper'}"></i>`}</div>
+      <div class="blog-body">
+        <div class="blog-cat">${a.cat}</div>
+        <div class="blog-title">${lang==='ro'?a.titleRo||a.titleEn:lang==='ru'?a.titleRu||a.titleEn:a.titleEn}</div>
+        <div class="blog-excerpt">${lang==='ro'?a.excerptRo||a.excerptEn:lang==='ru'?a.excerptRu||a.excerptEn:a.excerptEn}</div>
+        <div class="blog-read"><span>READ MORE</span><i class="fas fa-arrow-right"></i></div>
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.blog-card').forEach(card=>card.addEventListener('click',()=>{
+    const a=posts.find(x=>x.id===card.dataset.id);if(!a)return;
+    const title=lang==='ro'?a.titleRo||a.titleEn:lang==='ru'?a.titleRu||a.titleEn:a.titleEn;
+    const content=lang==='ro'?a.contentRo||a.contentEn:lang==='ru'?a.contentRu||a.contentEn:a.contentEn;
+    document.getElementById('blog-modal-inner').innerHTML=`
+      <div class="blog-modal-img">${a.imageBase64?`<img src="${a.imageBase64}"/>`:`<i class="fas ${a.icon||'fa-newspaper'}"></i>`}</div>
+      <div class="blog-modal-cat">${a.cat}</div>
+      <div class="blog-modal-title">${title}</div>
+      <div class="blog-modal-text">${content}</div>
+    `;
+    openModal('blog-modal');
+  }));
+}
+document.getElementById('blog-close').addEventListener('click',()=>closeModal('blog-modal'));
+
+// ========== MODALS ==========
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+// ========== TOAST ==========
+function showToast(msg,type=''){
+  const c=document.getElementById('toast-container');
+  const el=document.createElement('div');
+  el.className='toast'+(type?' '+type:'');el.textContent=msg;c.appendChild(el);
+  setTimeout(()=>{el.style.animation='toastOut .3s ease forwards';setTimeout(()=>el.remove(),300);},2600);
+}
+
+// ========== NAV & MISC ==========
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const target=document.querySelector(a.getAttribute('href'));
+  if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'});}
+  document.getElementById('mobile-menu').classList.remove('open');
+}));
+
+// ========== STORAGE SYNC ==========
+window.addEventListener('storage',e=>{
+  if(e.key===KEYS.products){renderProducts();}
+  if(e.key===KEYS.blog){renderBlog();}
+  if(e.key===KEYS.theme){const th=getData(KEYS.theme);if(th)applyTheme(th);}
+});
+
+// ========== BOOT ==========
+initData();
+loadSession();
+const savedTheme=getData(KEYS.theme)||'dark';
+applyTheme(savedTheme);
+applyLang();
+renderAuthArea();
+</script>
+</body>
+</html>
