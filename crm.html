@@ -860,19 +860,34 @@ const DEF_BLOG=[
   {id:'b1',cat:'Nutrition',icon:'fa-flask',titleEn:'The Science of Whey Protein',titleRo:'Stiinta Proteinei Whey',titleRu:'Наука о протеине',excerptEn:'Discover why whey protein is the gold standard.',excerptRo:'Descopera de ce proteina whey este standardul de aur.',excerptRu:'Узнайте о протеине.',contentEn:'<p>Whey protein is a complete protein containing all essential amino acids.</p>',contentRo:'<p>Proteina whey contine toti aminoacizii esentiali.</p>',contentRu:'<p>Сывороточный протеин.</p>',imageBase64:'',timestamp:Date.now()-172800000},
 ];
 
-// ===== STORAGE =====
-function getData(k){try{return JSON.parse(localStorage.getItem(k))||null;}catch{return null;}}
-function setData(k,v){localStorage.setItem(k,JSON.stringify(v));}
-function initData(){
-  if(!getData(KEYS.products)) setData(KEYS.products,DEF_PRODUCTS);
-  if(!getData(KEYS.users))    setData(KEYS.users,DEF_USERS);
-  if(!getData(KEYS.trainers)) setData(KEYS.trainers,DEF_TRAINERS);
-  if(!getData(KEYS.orders))   setData(KEYS.orders,[]);
-  if(!getData(KEYS.blog))     setData(KEYS.blog,DEF_BLOG);
-  if(!getData(KEYS.b2b))      setData(KEYS.b2b,B2B_MASTER);
-  if(!getData(KEYS.b2bSel))   setData(KEYS.b2bSel,[]);
-  if(!getData(KEYS.b2bOrder)) setData(KEYS.b2bOrder,[]);
-  if(!getData(KEYS.batches))  setData(KEYS.batches,[]);
+// ===== STORAGE (API-backed) =====
+const _cache={};
+function getData(k){
+  if(k===KEYS.theme) return localStorage.getItem(k)||null;
+  return _cache[k]??null;
+}
+function setData(k,v){
+  if(k===KEYS.theme){localStorage.setItem(k,v);return;}
+  _cache[k]=v;
+  fetch('api/save.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,value:v})}).catch(()=>{});
+}
+function initData(){}
+async function loadAllData(){
+  try{
+    const res=await fetch('api/load.php');
+    if(!res.ok) throw new Error('Load failed');
+    const data=await res.json();
+    Object.assign(_cache,data);
+  }catch(e){console.error('Could not reach server.',e);}
+  // Seed runtime defaults for any missing keys
+  if(!_cache[KEYS.products])  _cache[KEYS.products]=DEF_PRODUCTS;
+  if(!_cache[KEYS.orders])    _cache[KEYS.orders]=[];
+  if(!_cache[KEYS.trainers])  _cache[KEYS.trainers]=DEF_TRAINERS;
+  if(!_cache[KEYS.blog])      _cache[KEYS.blog]=DEF_BLOG;
+  if(!_cache[KEYS.b2b]?.length){ _cache[KEYS.b2b]=B2B_MASTER; setData(KEYS.b2b,B2B_MASTER); }
+  if(!_cache[KEYS.b2bSel])   _cache[KEYS.b2bSel]=[];
+  if(!_cache[KEYS.b2bOrder]) _cache[KEYS.b2bOrder]=[];
+  if(!_cache[KEYS.batches])  _cache[KEYS.batches]=[];
 }
 
 // ===== THEME =====
@@ -1955,25 +1970,41 @@ function toast(msg,type=''){
 }
 
 // ===== SIDEBAR ACTIONS =====
-document.getElementById('reset-btn').addEventListener('click',()=>showConfirm('Reset All Data','Clear localStorage and restore demo defaults?',()=>{Object.values(KEYS).forEach(k=>localStorage.removeItem(k));initData();toast('Reset done','ok');renderCurrent();renderDashboard();}));
+document.getElementById('reset-btn').addEventListener('click',()=>showConfirm('Reset All Data','Reset all data to demo defaults? This cannot be undone.',async()=>{
+  try{
+    await fetch('api/reset.php',{method:'POST'});
+    await loadAllData();
+    toast('Reset done','ok');renderCurrent();renderDashboard();
+  }catch{toast('Reset failed','');}
+}));
 document.getElementById('store-btn').addEventListener('click',()=>window.open('index.html','_blank'));
-document.getElementById('logout-btn').addEventListener('click',()=>{window.location.href='index.html';});
+document.getElementById('logout-btn').addEventListener('click',async()=>{
+  await fetch('api/auth.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})}).catch(()=>{});
+  window.location.href='index.html';
+});
 
 // ===== STORAGE SYNC =====
 window.addEventListener('storage',e=>{
-  if(Object.values(KEYS).includes(e.key)){renderCurrent();if(currentPage==='dashboard')renderDashboard();}
-  if(e.key===KEYS.theme){const th=getData(KEYS.theme);if(th)applyTheme(th);}
+  if(e.key===KEYS.theme){const th=localStorage.getItem(KEYS.theme);if(th)applyTheme(th);}
 });
 
 // ===== BOOT =====
-initData();
-applyTheme(getData(KEYS.theme)||'dark');
-setDateRange(30);
-renderUndo();
-renderDashboard();
-updateSelCount();
-// Init first order item row
-(()=>{const row=document.querySelector('.order-item-row');if(row){const rmBtn=row.querySelector('.remove-order-item');if(rmBtn)rmBtn.style.display='none';}populateOrderProductSelects();})();
+(async()=>{
+  // Verify admin session before rendering anything
+  let auth={};
+  try{const r=await fetch('api/auth.php?action=me');auth=await r.json();}catch{}
+  if(!auth.user||auth.user.role!=='admin'){
+    window.location.href='index.html';
+    return;
+  }
+  await loadAllData();
+  applyTheme(localStorage.getItem(KEYS.theme)||'dark');
+  setDateRange(30);
+  renderUndo();
+  renderDashboard();
+  updateSelCount();
+  (()=>{const row=document.querySelector('.order-item-row');if(row){const rmBtn=row.querySelector('.remove-order-item');if(rmBtn)rmBtn.style.display='none';}populateOrderProductSelects();})();
+})();
 </script>
 </body>
 </html>

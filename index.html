@@ -589,15 +589,33 @@ const DEF_BLOG=[
   {id:'b3',cat:'Recovery',icon:'fa-heartbeat',titleEn:'BCAA & Recovery: Train More, Hurt Less',titleRo:'BCAA & Recuperare: Antrenează-te Mai Mult',titleRu:'BCAA и восстановление: больше тренировок',excerptEn:'Understand how BCAAs speed up recovery and prevent muscle breakdown.',excerptRo:'Înțelege cum BCAA-urile accelerează recuperarea.',excerptRu:'Разберитесь, как BCAA ускоряют восстановление.',contentEn:'<p>BCAAs — leucine, isoleucine, and valine — account for ~35% of essential amino acids in muscle proteins. They are metabolized directly in the muscle.</p><p>Research shows BCAA supplementation reduces exercise-induced damage, decreases soreness, and preserves lean mass. POWER9 BCAA Elite uses a 2:1:1 ratio.</p>',contentRo:'<p>BCAA-urile reprezintă ~35% din aminoacizii esențiali din proteinele musculare. Sunt metabolizate direct în mușchi.</p>',contentRu:'<p>BCAA составляют ~35% незаменимых аминокислот в мышечных белках и метаболизируются непосредственно в мышцах.</p>',imageBase64:'',timestamp:Date.now()},
 ];
 
-// ========== STORAGE ==========
-function getData(k){try{return JSON.parse(localStorage.getItem(k))||null;}catch{return null;}}
-function setData(k,v){localStorage.setItem(k,JSON.stringify(v));}
-function initData(){
-  if(!getData(KEYS.products)) setData(KEYS.products,DEF_PRODUCTS);
-  if(!getData(KEYS.users))    setData(KEYS.users,DEF_USERS);
-  if(!getData(KEYS.trainers)) setData(KEYS.trainers,DEF_TRAINERS);
-  if(!getData(KEYS.orders))   setData(KEYS.orders,[]);
-  if(!getData(KEYS.blog))     setData(KEYS.blog,DEF_BLOG);
+// ========== STORAGE (API-backed) ==========
+const _cache={};
+function getData(k){
+  if(k===KEYS.theme) return localStorage.getItem(k)||null;
+  return _cache[k]??null;
+}
+function setData(k,v){
+  if(k===KEYS.theme){localStorage.setItem(k,v);return;}
+  _cache[k]=v;
+  fetch('api/save.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,value:v})}).catch(()=>{});
+}
+function initData(){}
+async function loadAllData(){
+  try{
+    const res=await fetch('api/load.php');
+    if(!res.ok) throw new Error('Load failed');
+    const data=await res.json();
+    Object.assign(_cache,data);
+    if(!_cache[KEYS.products])  _cache[KEYS.products]=DEF_PRODUCTS;
+    if(!_cache[KEYS.orders])    _cache[KEYS.orders]=[];
+    if(!_cache[KEYS.trainers])  _cache[KEYS.trainers]=DEF_TRAINERS;
+    if(!_cache[KEYS.blog])      _cache[KEYS.blog]=DEF_BLOG;
+  }catch(e){
+    console.error('Could not reach server – using built-in defaults.',e);
+    _cache[KEYS.products]=DEF_PRODUCTS;
+    _cache[KEYS.orders]=[];_cache[KEYS.trainers]=DEF_TRAINERS;_cache[KEYS.blog]=DEF_BLOG;
+  }
 }
 
 // ========== THEME ==========
@@ -820,7 +838,13 @@ document.getElementById('cart-overlay').addEventListener('click',closeCart);
 function closeCart(){document.getElementById('cart-sidebar').classList.remove('open');document.getElementById('cart-overlay').classList.remove('open');}
 
 // ========== AUTH ==========
-function loadSession(){const s=sessionStorage.getItem('p9user');if(s)try{currentUser=JSON.parse(s);}catch{}}
+async function loadSession(){
+  try{
+    const res=await fetch('api/auth.php?action=me');
+    const data=await res.json();
+    if(data.user) currentUser=data.user;
+  }catch{}
+}
 function renderAuthArea(){
   const area=document.getElementById('auth-area');
   const adminLink=document.getElementById('admin-link');
@@ -835,7 +859,10 @@ function renderAuthArea(){
     adminLink.style.display='none';
   }
 }
-function doLogout(){sessionStorage.removeItem('p9user');currentUser=null;renderAuthArea();}
+async function doLogout(){
+  await fetch('api/auth.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})}).catch(()=>{});
+  currentUser=null;renderAuthArea();
+}
 
 document.getElementById('signin-tab').addEventListener('click',()=>{
   document.getElementById('signin-tab').classList.add('active');document.getElementById('signup-tab').classList.remove('active');
@@ -845,35 +872,36 @@ document.getElementById('signup-tab').addEventListener('click',()=>{
   document.getElementById('signup-tab').classList.add('active');document.getElementById('signin-tab').classList.remove('active');
   document.getElementById('signup-form').style.display='block';document.getElementById('signin-form').style.display='none';
 });
-document.getElementById('si-submit').addEventListener('click',()=>{
+document.getElementById('si-submit').addEventListener('click',async()=>{
   const u=document.getElementById('si-user').value.trim();
   const p=document.getElementById('si-pass').value;
-  const users=getData(KEYS.users)||[];
-  const found=users.find(x=>x.username===u&&x.password===p);
   const err=document.getElementById('si-err');
-  if(!found){err.textContent='Invalid credentials.';err.style.display='block';return;}
   err.style.display='none';
-  currentUser=found;
-  sessionStorage.setItem('p9user',JSON.stringify(found));
-  closeModal('auth-modal');
-  renderAuthArea();
-  if(found.role==='admin'){
-    showToast('Welcome Admin! Opening CRM...','info');
-    setTimeout(()=>window.open('crm.html','_blank'),800);
-  }
+  try{
+    const res=await fetch('api/auth.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'login',username:u,password:p})});
+    const data=await res.json();
+    if(data.error){err.textContent=data.error;err.style.display='block';return;}
+    currentUser=data.user;
+    closeModal('auth-modal');renderAuthArea();
+    if(data.user.role==='admin'){
+      showToast('Welcome Admin! Opening CRM...','info');
+      setTimeout(()=>window.open('crm.html','_blank'),800);
+    }
+  }catch{err.textContent='Server error. Please try again.';err.style.display='block';}
 });
-document.getElementById('su-submit').addEventListener('click',()=>{
+document.getElementById('su-submit').addEventListener('click',async()=>{
   const u=document.getElementById('su-user').value.trim();
   const e=document.getElementById('su-email').value.trim();
   const p=document.getElementById('su-pass').value;
   const err=document.getElementById('su-err');const ok=document.getElementById('su-ok');
+  err.style.display='none';ok.style.display='none';
   if(!u||!e||!p){err.textContent='All fields required.';err.style.display='block';return;}
-  const users=getData(KEYS.users)||[];
-  if(users.find(x=>x.username===u)){err.textContent='Username already taken.';err.style.display='block';return;}
-  err.style.display='none';
-  users.push({username:u,password:p,email:e,role:'user'});
-  setData(KEYS.users,users);
-  ok.textContent='Account created! You can sign in.';ok.style.display='block';
+  try{
+    const res=await fetch('api/auth.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'register',username:u,email:e,password:p})});
+    const data=await res.json();
+    if(data.error){err.textContent=data.error;err.style.display='block';return;}
+    ok.textContent='Account created! You can now sign in.';ok.style.display='block';
+  }catch{err.textContent='Server error. Please try again.';err.style.display='block';}
 });
 document.getElementById('auth-close').addEventListener('click',()=>closeModal('auth-modal'));
 
@@ -1078,18 +1106,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',
 
 // ========== STORAGE SYNC ==========
 window.addEventListener('storage',e=>{
-  if(e.key===KEYS.products){renderProducts();}
-  if(e.key===KEYS.blog){renderBlog();}
-  if(e.key===KEYS.theme){const th=getData(KEYS.theme);if(th)applyTheme(th);}
+  if(e.key===KEYS.theme){const th=localStorage.getItem(KEYS.theme);if(th)applyTheme(th);}
 });
 
 // ========== BOOT ==========
-initData();
-loadSession();
-const savedTheme=getData(KEYS.theme)||'dark';
-applyTheme(savedTheme);
-applyLang();
-renderAuthArea();
+(async()=>{
+  await loadAllData();
+  applyTheme(localStorage.getItem(KEYS.theme)||'dark');
+  await loadSession();
+  applyLang();
+  renderAuthArea();
+})();
 </script>
 </body>
 </html>
